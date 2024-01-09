@@ -28,7 +28,7 @@ const navigationConfig = [
     id: "logs-management",
     title: "Logs Management",
     type: "item",
-    icon: "heroicons-outline:at-symbol",
+    icon: "material-solid:format_list_bulleted",
     url: "logs",
   },
 ];

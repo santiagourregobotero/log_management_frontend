@@ -1,6 +1,7 @@
 import FuseLoading from "@fuse/core/FuseLoading";
 import withRouter from "@fuse/core/withRouter";
 import AddIcon from "@mui/icons-material/Add";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Fab, TableContainer } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +15,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  downloadLogs,
   getLogs,
   logTotalCount,
   selectLogs,
@@ -117,6 +119,20 @@ function LogsTable(props) {
     props.navigate(`/Log-detail/new`);
   }
 
+  function handleDownload() {
+    dispatch(
+      downloadLogs({
+        page,
+        rowsPerPage,
+        severityText,
+        sourceText,
+        startDate,
+        endDate,
+        order,
+      })
+    );
+  }
+
   function handleChangePage(event, value) {
     setPage(value);
   }
@@ -149,9 +165,12 @@ function LogsTable(props) {
 
   return (
     <div className="w-full flex flex-col min-h-full h-full">
-      <div className="absolute bottom-48 right-48">
+      <div className="absolute bottom-48 right-48 flex gap-12 flex-col">
         <Fab color="primary" aria-label="add" onClick={handleAdd}>
           <AddIcon />
+        </Fab>
+        <Fab color="primary" aria-label="add" onClick={handleDownload}>
+          <DownloadIcon />
         </Fab>
       </div>
       <TableContainer className="h-full">

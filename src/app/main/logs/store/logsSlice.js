@@ -5,6 +5,10 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import * as dayjs from "dayjs";
+import "dayjs/locale/en";
+dayjs.locale("en");
+
 export const getLogs = createAsyncThunk(
   "logApp/getLogs",
   async ({
@@ -30,6 +34,45 @@ export const getLogs = createAsyncThunk(
     );
     const data = await response.data;
     return data;
+  }
+);
+
+export const downloadLogs = createAsyncThunk(
+  "logApp/downloadLogs",
+  async ({
+    page,
+    rowsPerPage,
+    severityText,
+    sourceText,
+    startDate,
+    endDate,
+    order,
+  }) => {
+    const startDateText = startDate ? startDate.format("YYYY-MM-DD") : "";
+    const endDateText = endDate ? endDate.format("YYYY-MM-DD") : "";
+    const ordering = (order.id = null
+      ? ""
+      : order.direction == "asc"
+      ? "-" + order.id
+      : order.id);
+    const response = await axios.get(
+      `/api/logs/download?page=${
+        page + 1
+      }&size=${rowsPerPage}&severity=${severityText}&source=${sourceText}&start_date=${startDateText}&end_date=${endDateText}&ordering=${ordering}`,
+      { responseType: "blob" }
+    );
+    console.log("download", response);
+    const blob = new Blob([response.data]);
+    console.log(blob);
+
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `logs_${dayjs(new Date()).format(
+      "YYYY-MM-DDTHH:mm:ssZ[Z]"
+    )}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 );
 
