@@ -21,7 +21,7 @@ import withAppProviders from "./withAppProviders";
 /**
  * Axios HTTP Request defaults
  */
-axios.defaults.baseURL = "http://127.0.0.1:8000/";
+axios.defaults.baseURL = "http://15.222.60.127:8000/";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 

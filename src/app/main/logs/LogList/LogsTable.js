@@ -159,6 +159,11 @@ function LogsTable(props) {
         <Typography color="text.secondary" variant="h5">
           There are no Logs!
         </Typography>
+        <div className="absolute bottom-48 right-48 flex gap-12 flex-col">
+          <Fab color="primary" aria-label="add" onClick={handleAdd}>
+            <AddIcon />
+          </Fab>
+        </div>
       </motion.div>
     );
   }
